@@ -1,6 +1,6 @@
 var totalPopulation = 200;
 var mutationRate = 0.01;
-var target = "To be or not to be. That is the question.";
+var target = "To be or not to be.";
 let chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .,:_-";
 
 var population;
