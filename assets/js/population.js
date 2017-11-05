@@ -39,7 +39,8 @@ class Population {
         for (let x = 0; x < this.population.length; x++) {
             let dna = this.population[x];
             let fitness = map(dna.fitness, 0, maxFitness, 0, 1);
-            for (let y = floor(fitness * 100); y > 0; y--) {
+            let n = floor(fitness * 100);
+            for (let y = 0; y < n; y++) {
                 this.matingPool.push(x);
             }
         }
@@ -48,24 +49,11 @@ class Population {
     generate() {
         let newPopulation = [];
         for (let x = 0; x < this.population.length; x++) {
-            let parent1 = this.population[this.matingPool[floor(random() * this.matingPool.length)]];
-            let parent2 = this.population[this.matingPool[floor(random() * this.matingPool.length)]];
-            let genes = [];
-            for (let y = 0; y < parent1.genes.length; y++) {
-                if (random() < 0.5) {
-                    genes.push(parent1.genes[y]);
-                } else {
-                    genes.push(parent2.genes[y]);
-                }
-            }
-            newPopulation.push(new DNA(genes));
-        }
-        return this.mutate(newPopulation);
-    }
-
-    mutate(newPopulation) {
-        for (let x = 0; x < newPopulation.length; x++) {
-            newPopulation[x].mutate(this.mutationRate);
+            let partnerA = this.population[this.matingPool[floor(random(this.matingPool.length))]];
+            let partnerB = this.population[this.matingPool[floor(random(this.matingPool.length))]];
+            let child = partnerA.crossover(partnerB);
+            child.mutate(this.mutationRate);
+            newPopulation.push(child);
         }
         return newPopulation;
     }
