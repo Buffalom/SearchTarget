@@ -1,4 +1,4 @@
-class Dna {
+class DNA {
     constructor(dna) {
         this.dna = dna;
         this.fitness;

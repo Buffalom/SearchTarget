@@ -14,13 +14,13 @@ function setup() {
 function draw() {
     population.evaluate(target);
 
-    population.cross();
+    let newDna = population.cross();
 
-    population.mutate(chars);
+    newDna = population.mutate(newDna, chars);
     
     printStats();
 
-    population.next();
+    population.next(newDna);
 }
 
 function printStats() {

@@ -4,7 +4,6 @@ class Population {
         this.generation = generation || 1;
         this.dna = [];
         this.matingPool = [];
-        this.newDna = [];
     }
 
     initalize(totalPopulation, target, chars) {
@@ -13,7 +12,7 @@ class Population {
             for (let y = 0; y < target.length; y++) {
                 randomDna.push(chars.substr(Math.floor(Math.random() * chars.length) , 1));
             }
-            this.dna.push(new Dna(randomDna));
+            this.dna.push(new DNA(randomDna));
         }
     }
 
@@ -29,6 +28,7 @@ class Population {
     }
 
     cross() {
+        let newDna = [];
         for (let x = 0; x < this.dna.length; x++) {
             let parent1 = this.dna[this.matingPool[Math.floor(Math.random() * this.matingPool.length)]];
             let parent2 = this.dna[this.matingPool[Math.floor(Math.random() * this.matingPool.length)]];
@@ -40,20 +40,21 @@ class Population {
                     dna.push(parent2.dna[y]);
                 }
             }
-            this.newDna.push(new Dna(dna));
+            newDna.push(new DNA(dna));
         }
+        return newDna;
     }
 
-    mutate(chars) {
-        for (let x = 0; x < this.newDna.length; x++) {
-            this.newDna[x].mutate(this.mutationRate, chars);
+    mutate(newDna, chars) {
+        for (let x = 0; x < newDna.length; x++) {
+            newDna[x].mutate(this.mutationRate, chars);
         }
+        return newDna;
     }
 
-    next() {
-        this.dna = this.newDna;
+    next(newDna) {
+        this.dna = newDna;
         this.generation++;
-        this.newDna = [];
     }
 
     /* Getters */
