@@ -12,15 +12,14 @@ function setup() {
 }
 
 function draw() {
-    population.evaluate(target);
-
-    let newPopulation = population.cross();
-
-    newPopulation = population.mutate(newPopulation, chars);
-    
+    // Calculate Fitness
+    population.calcFitness(target);
+    // Generate mating pool
+    population.naturalSelection();
+    // Print stats
     printStats();
-
-    population.next(newPopulation);
+    // Create next generate
+    population.generate();
 }
 
 function printStats() {
@@ -28,7 +27,7 @@ function printStats() {
     $('span#best').html(population.best());
 
     $('span#totGenerations').html(population.generation);
-    $('span#avgFitness').html((Math.floor(population.avgFitness() * 1000) / 10) + "%");
+    $('span#avgFitness').html((floor(population.avgFitness() * 1000) / 10) + "%");
     $('span#totPopulation').html(totalPopulation);
     $('span#mutRate').html(mutationRate * 100 + "%");
 
@@ -37,4 +36,12 @@ function printStats() {
     for (let x = 0; x < allDna.length; x++) {
         $('div#population').html($('div#population').html() + `<p>${allDna[x]}</p>`);
     }
+}
+
+function randomChar() {
+    var c = floor(random(63, 122));
+    if (c === 63) c = 32;
+    if (c === 64) c = 46;
+
+    return String.fromCharCode(c);
 }

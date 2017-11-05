@@ -10,48 +10,53 @@ class Population {
 
     initalize(chars) {
         for (let x = 0; x < this.totalPopulation; x++) {
-            let randomDna = [];
+            let randomgenes = [];
             for (let y = 0; y < this.target.length; y++) {
-                randomDna.push(chars.substr(Math.floor(Math.random() * chars.length) , 1));
+                randomgenes.push(randomChar());
             }
-            this.population.push(new DNA(randomDna));
+            this.population.push(new DNA(randomgenes));
         }
     }
 
-    evaluate() {
+    calcFitness() {
         for (let x = 0; x < this.population.length; x++) {
-            let dna = this.population[x];
-            dna.evaluate(this.target);
+            let genes = this.population[x];
+            genes.calcFitness(this.target);
+        }
+    }
 
-            for (let y = Math.floor(dna.fitness * 100); y > 0; y--) {
+    naturalSelection() {
+        for (let x = 0; x < this.population.length; x++) {
+            let genes = this.population[x];
+            for (let y = floor(genes.fitness * 100); y > 0; y--) {
                 this.matingPool.push(x);
             }
         }
     }
 
-    cross() {
+    generate() {
         let newPopulation = [];
         for (let x = 0; x < this.population.length; x++) {
-            let parent1 = this.population[this.matingPool[Math.floor(Math.random() * this.matingPool.length)]];
-            let parent2 = this.population[this.matingPool[Math.floor(Math.random() * this.matingPool.length)]];
-            let dna = [];
-            for (let y = 0; y < parent1.dna.length; y++) {
+            let parent1 = this.population[this.matingPool[floor(random() * this.matingPool.length)]];
+            let parent2 = this.population[this.matingPool[floor(random() * this.matingPool.length)]];
+            let genes = [];
+            for (let y = 0; y < parent1.genes.length; y++) {
                 if (random() < 0.5) {
-                    dna.push(parent1.dna[y]);
+                    genes.push(parent1.genes[y]);
                 } else {
-                    dna.push(parent2.dna[y]);
+                    genes.push(parent2.genes[y]);
                 }
             }
-            newPopulation.push(new DNA(dna));
+            newPopulation.push(new DNA(genes));
         }
-        return newPopulation;
+        this.mutate(newPopulation);
     }
 
-    mutate(newPopulation, chars) {
+    mutate(newPopulation) {
         for (let x = 0; x < newPopulation.length; x++) {
-            newPopulation[x].mutate(this.mutationRate, chars);
+            newPopulation[x].mutate(this.mutationRate);
         }
-        return newPopulation;
+        this.next(newPopulation);
     }
 
     next(newPopulation) {
@@ -67,21 +72,21 @@ class Population {
                 best = this.population[x];
             }
         }
-        return best.dna.join("");
+        return best.genes.join("");
     }
 
     avgFitness() {
-        let totalDna = 0;
+        let totalFitness = 0;
         for (let x = 0; x < this.population.length; x++) {
-            totalDna += this.population[x].fitness;
+            totalFitness += this.population[x].fitness;
         }
-        return totalDna / this.population.length;
+        return totalFitness / this.population.length;
     }
 
     getAllDna() {
         let allDna = [];
         for (let x = 0; x < this.population.length; x++) {
-            allDna.push(this.population[x].dna.join(""));
+            allDna.push(this.population[x].genes.join(""));
         }
         return allDna;
     }
