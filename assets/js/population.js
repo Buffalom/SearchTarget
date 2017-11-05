@@ -1,25 +1,27 @@
 class Population {
-    constructor(mutationRate, generation) {
+    constructor(target, totalPopulation, mutationRate, generation) {
+        this.target = target;
+        this.totalPopulation = totalPopulation;
         this.mutationRate = mutationRate;
         this.generation = generation || 1;
         this.dna = [];
         this.matingPool = [];
     }
 
-    initalize(totalPopulation, target, chars) {
-        for (let x = 0; x < totalPopulation; x++) {
+    initalize(chars) {
+        for (let x = 0; x < this.totalPopulation; x++) {
             let randomDna = [];
-            for (let y = 0; y < target.length; y++) {
+            for (let y = 0; y < this.target.length; y++) {
                 randomDna.push(chars.substr(Math.floor(Math.random() * chars.length) , 1));
             }
             this.dna.push(new DNA(randomDna));
         }
     }
 
-    evaluate(target) {
+    evaluate() {
         for (let x = 0; x < this.dna.length; x++) {
             let dna = this.dna[x];
-            dna.evaluate(target);
+            dna.evaluate(this.target);
 
             for (let y = Math.floor(dna.fitness * 100); y > 0; y--) {
                 this.matingPool.push(x);

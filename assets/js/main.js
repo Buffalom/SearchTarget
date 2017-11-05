@@ -7,8 +7,8 @@ var population;
 
 function setup() {
     //noLoop();
-    population = new Population(0.01);
-    population.initalize(totalPopulation, target, chars);
+    population = new Population(target, totalPopulation, mutationRate);
+    population.initalize(chars);
 }
 
 function draw() {
