@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Saira+Semi+Condensed");
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+body > div {
+  float: left;
+}
+
+body > div#left {
+  width: 60%;
+}
+
+body > div#left > div {
+  padding: 20px 10px;
+}
+
+body > div#right {
+  width: 40%;
+}
+
+body p {
+  margin: 8px 0;
+}
+ 
+
+ /*# sourceMappingURL= main.css.map */
