@@ -1,6 +1,6 @@
 var totalPopulation = 200;
 var mutationRate = 0.01;
-var target = "To be or not to be.";
+var target = "To be or not to be. That is the question.";
 let chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .,:_-";
 
 var population;
@@ -16,10 +16,14 @@ function draw() {
     population.calcFitness(target);
     // Generate mating pool
     population.naturalSelection();
+    // Create next generation
+    let newPopulation = population.generate();
     // Print stats
     printStats();
-    // Create next generate
-    population.generate();
+    // Check if done
+    population.evaluate();
+    // Initiate next generation
+    population.next(newPopulation);
 }
 
 function printStats() {

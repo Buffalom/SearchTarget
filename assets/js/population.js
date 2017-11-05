@@ -26,9 +26,20 @@ class Population {
     }
 
     naturalSelection() {
+        this.matingPool = [];
+        
+        let maxFitness = 0;
         for (let x = 0; x < this.population.length; x++) {
-            let genes = this.population[x];
-            for (let y = floor(genes.fitness * 100); y > 0; y--) {
+            let dna = this.population[x];
+            if (dna.fitness > maxFitness) {
+                maxFitness = dna.fitness;
+            }
+        }
+
+        for (let x = 0; x < this.population.length; x++) {
+            let dna = this.population[x];
+            let fitness = map(dna.fitness, 0, maxFitness, 0, 1);
+            for (let y = floor(fitness * 100); y > 0; y--) {
                 this.matingPool.push(x);
             }
         }
@@ -49,14 +60,22 @@ class Population {
             }
             newPopulation.push(new DNA(genes));
         }
-        this.mutate(newPopulation);
+        return this.mutate(newPopulation);
     }
 
     mutate(newPopulation) {
         for (let x = 0; x < newPopulation.length; x++) {
             newPopulation[x].mutate(this.mutationRate);
         }
-        this.next(newPopulation);
+        return newPopulation;
+    }
+
+    evaluate() {
+        for (let x = 0; x < this.population.length; x++) {
+            if (this.population[x].fitness === 1) {
+                noLoop();
+            }
+        }
     }
 
     next(newPopulation) {

@@ -5,10 +5,9 @@ class DNA {
     }
 
     calcFitness(target) {
-        let targetArray = target.split("");
         let correct = 0;
         for (let x = 0; x < target.length; x++) {
-            if (this.genes[x] === targetArray[x]) {
+            if (this.genes[x] === target.charAt(x)) {
                 correct++;
             }
         }
